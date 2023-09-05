@@ -1,2 +1,2 @@
 #!/bin/bash
-echo $PATH/action | tail -n 1
+echo $PATH/action >> $PATH
