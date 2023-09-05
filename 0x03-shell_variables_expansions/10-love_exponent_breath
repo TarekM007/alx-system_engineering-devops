@@ -1,2 +1,2 @@
 #!/bin/bash
-BREATH=4 LOVE=3 | echo $(($(($LOVE**2)) * $BREATH))
+LOVE=3 BREATH=4 | echo $(($BREATH**$LOVE))
