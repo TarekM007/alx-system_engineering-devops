@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # This script Displays the contents of the file `/etc/passwd`.
 
-while IFS=':' read -r username GROUP_ID home CMD_shell uid password info;
+while IFS=':' read -r username gid home shell uid password info;
 do
-        echo "The user $username is part of the $GROUP_ID gang,"\
-		"lives in $home and rides $CMD_shell."\
+        echo "The user $username is part of the $gid gang,"\
+		"lives in $home and rides $shell."\
 		" $uid's place is protected by the passcode $password,"\
 		" more info about the user here: $info"
 done < "/etc/passwd"
