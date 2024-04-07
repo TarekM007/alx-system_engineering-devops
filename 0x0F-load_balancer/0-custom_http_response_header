@@ -1,23 +1,11 @@
 #!/usr/bin/env bash
-# Configure Nginx so that its HTTP response contains a custom header (on web-01 and web-02)
-
-sudo apt-get update
-sudo apt-get -y install nginx
-
-sudo ufw allow 'Nginx HTTP'
-
-sudo mkdir -p /var/www/html
-
-sudo chmod -R 755 /var/www
-
-echo 'Hello World!' |sudo tee  /var/www/html/index.html
-
-echo "Ceci n'est pas une page" |sudo tee /var/www/html/404.html
-
+# Configures a custom http response header
+sudo apt-get update -y
+sudo apt-get install nginx -y
+echo "Holberton School" > /var/www/html/index.nginx-debian.html
+echo "Ceci n'est pas une page" > /usr/share/nginx/html/custom_404.html
 new_string="server_name _;\n\trewrite ^\/redirect_me google.com permanent;"
-sudo sed -i "s/server_name _;/$new_string/" /etc/nginx/sites-enabled/default
-
-new_string_1="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
-sudo sed -i "s/listen 80 default_server;/$new_string_1/" /etc/nginx/sites-enabled/default
-
-sudo service nginx restart
+nstr1="\n\tadd_header X-Served-By \$hostname;"
+nstr2="\n\terror_page 404 \/custom_404.html;\n\tlocation = \/custom_404.html {\n\t\troot \/usr\/share\/nginx\/html;\n\t\tinternal;\n\t}"
+sed -i "s/server_name _;/$new_string$nstr1$nstr2/" /etc/nginx/sites-enabled/default
+service nginx start
